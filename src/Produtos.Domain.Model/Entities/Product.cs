@@ -24,6 +24,11 @@
             Supplier = supplier;
         }
 
+        public void LogicalDelete()
+        {
+            IsActive = false;
+        }
+
         public void Edit(string? description, DateTime? manufacturingDate, DateTime? validDate)
         {
             if(!string.IsNullOrWhiteSpace(description))

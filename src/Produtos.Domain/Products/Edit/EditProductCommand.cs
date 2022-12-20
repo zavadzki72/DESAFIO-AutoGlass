@@ -1,4 +1,6 @@
-﻿namespace Produtos.Domain.Products.Edit
+﻿using Produtos.Domain.Model.ViewModels.Products;
+
+namespace Produtos.Domain.Products.Edit
 {
     public class EditProductCommand : ProductCommand
     {
@@ -19,6 +21,18 @@
         {
             ValidationResult = new EditProductValidator().Validate(this);
             return ValidationResult.IsValid;
+        }
+
+        public static EditProductCommand CreateByRegisterViewModel(int id, RegisterProductViewModel registerProductViewModel)
+        {
+            return new EditProductCommand(
+                id,
+                registerProductViewModel.Description,
+                registerProductViewModel.ManufacturingDate,
+                registerProductViewModel.ValidDate,
+                registerProductViewModel.Supplier.Description,
+                registerProductViewModel.Supplier.Cnpj
+            );
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Produtos.Infra.SqlServer.Repositories
         {
             return await _applicationDbContext.Set<Product>()
                 .Include(x => x.Supplier)
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id && x.IsActive);
         }
 
         public async Task<PagedRepositoryResponse<PaginatedProductResponseViewModel>> GetByFilter(ProductFilter filter)
@@ -45,6 +45,7 @@ namespace Produtos.Infra.SqlServer.Repositories
             if (filter.Ids.Any())
             {
                 query = query.Where(x => filter.Ids.Contains(x.Id));
+                return await query.GetPaginatedResult(filter);
             }
 
             if (filter.Descriptions.Any())

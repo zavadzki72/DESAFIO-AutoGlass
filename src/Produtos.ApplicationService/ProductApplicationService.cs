@@ -7,6 +7,9 @@ using Produtos.Domain.Model.Interfaces;
 using Produtos.Domain.Model.Interfaces.ApplicationServices;
 using Produtos.Domain.Model.Interfaces.Repositories;
 using Produtos.Domain.Model.ViewModels.Products;
+using Produtos.Domain.Products.Delete;
+using Produtos.Domain.Products.Edit;
+using Produtos.Domain.Products.Register;
 
 namespace Produtos.ApplicationService
 {
@@ -40,22 +43,31 @@ namespace Produtos.ApplicationService
             var result = await _produtctRepository.GetByFilter(filter);
             var paginatedResult = new PaginatedResult<List<PaginatedProductResponseViewModel>>(result.Data, getProductsByFilter.Page, result.CountData, getProductsByFilter.Size);
 
-            return ServiceResult<PaginatedResult<List<PaginatedProductResponseViewModel>>>.Ok(paginatedResult);
+            return ServiceResult<PaginatedResult<List<PaginatedProductResponseViewModel>>>.Ok(paginatedResult, _notifications.GetNotifications());
         }
 
-        public Task<ServiceResult<int>> Register(RegisterProductViewModel registerProductViewModel)
+        public async Task<ServiceResult<int>> Register(RegisterProductViewModel registerProductViewModel)
         {
-            throw new NotImplementedException();
+            var command = RegisterProductCommand.CreateByRegisterViewModel(registerProductViewModel);
+            var result = await _bus.SendCommand<RegisterProductCommand, int>(command);
+
+            return ServiceResult<int>.Created($"products/{result}", _notifications.GetNotifications());
         }
 
-        public Task<ServiceResult> Edit(int id, RegisterProductViewModel registerProductViewModel)
+        public async Task<ServiceResult> Edit(int id, RegisterProductViewModel registerProductViewModel)
         {
-            throw new NotImplementedException();
+            var command = EditProductCommand.CreateByRegisterViewModel(id, registerProductViewModel);
+            await _bus.SendCommand(command);
+
+            return ServiceResult.OkEmpty(_notifications.GetNotifications());
         }
 
-        public Task<ServiceResult> Delete(int id)
+        public async Task<ServiceResult> Delete(int id)
         {
-            throw new NotImplementedException();
+            var command = new DeleteProductCommand(id);
+            await _bus.SendCommand(command);
+
+            return ServiceResult.OkEmpty(_notifications.GetNotifications());
         }
     }
 }

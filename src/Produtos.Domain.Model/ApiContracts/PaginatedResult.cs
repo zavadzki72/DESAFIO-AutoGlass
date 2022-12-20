@@ -18,7 +18,9 @@ namespace Produtos.Domain.Model.ApiContracts
             CurrentPage = currentPage;
             TotalItems = totalItems;
 
-            TotalPages = totalItems / sizePage;
+            decimal totalPages = (decimal)totalItems / (decimal)sizePage;
+
+            TotalPages = (int)Math.Ceiling(totalPages);
         }
 
         public TData Data { get; private set; }

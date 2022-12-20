@@ -34,10 +34,10 @@ namespace Produtos.Domain.Core
             return _notifications.Any(x => x.DomainNotificationKey == DomainNotificationKey.FLUENT_VALIDATION || x.DomainNotificationKey == DomainNotificationKey.ERROR || x.DomainNotificationKey == DomainNotificationKey.NOT_FOUND);
         }
 
-        public DomainNotification[] AddNotificationToReturn(DomainNotificationKey domainNotificationKey, string key, string error)
+        public List<DomainNotification> AddNotificationToReturn(DomainNotificationKey domainNotificationKey, string key, string error)
         {
             _notifications.Add(new DomainNotification(domainNotificationKey, key, error));
-            return _notifications.ToArray();
+            return _notifications;
         }
     }
 }

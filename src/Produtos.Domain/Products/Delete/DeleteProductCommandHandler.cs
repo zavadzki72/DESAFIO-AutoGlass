@@ -31,7 +31,9 @@ namespace Produtos.Domain.Products.Delete
                 return Unit.Value;
             }
 
-            await _productRepository.Delete(product);
+            product.LogicalDelete();
+
+            await _productRepository.Update(product);
             await Commit();
 
             return Unit.Value;

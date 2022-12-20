@@ -7,7 +7,7 @@ namespace Produtos.ApplicationService
 {
     public abstract class BaseApplicationService
     {
-        private readonly DomainNotificationHandler _notifications;
+        public readonly DomainNotificationHandler _notifications;
 
         public BaseApplicationService(INotificationHandler<DomainNotification> notifications)
         {
@@ -18,11 +18,11 @@ namespace Produtos.ApplicationService
         {
             if(response == null)
             {
-                var notification = _notifications.AddNotificationToReturn(DomainNotificationKey.NOT_FOUND, "NOT_FOUND", notFoundMessage);
-                return ServiceResult<T>.NotFound(notification);
+                var notifications = _notifications.AddNotificationToReturn(DomainNotificationKey.NOT_FOUND, "NOT_FOUND", notFoundMessage);
+                return ServiceResult<T>.NotFound(notifications);
             }
 
-            return ServiceResult<T>.Ok(response);
+            return ServiceResult<T>.Ok(response, _notifications.GetNotifications());
         }
     }
 }

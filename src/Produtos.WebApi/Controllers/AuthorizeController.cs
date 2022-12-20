@@ -5,7 +5,7 @@ using Produtos.Domain.Model.Interfaces;
 namespace Produtos.WebApi.Controllers
 {
     [ApiController]
-    [Route("v1/[controller]")]
+    [Route("authorize")]
     public class AuthorizeController : BaseController
     {
         private readonly IConfiguration _configuration;

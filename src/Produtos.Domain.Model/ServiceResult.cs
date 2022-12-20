@@ -5,14 +5,19 @@ namespace Produtos.Domain.Model
 {
     public class ServiceResult
     {
+        public ServiceResult(List<DomainNotification> notifications)
+        {
+            Notifications = notifications;
+        }
+
         public string? RouteLocation { get; protected set; }
         public bool Success { get; protected set; }
         public ServiceResultStatus Status { get; protected set; }
-        public List<DomainNotification> Notifications { get; protected set; } = new();
+        public List<DomainNotification> Notifications { get; protected set; }
 
-        public static ServiceResult OkEmpty()
+        public static ServiceResult OkEmpty(List<DomainNotification> notifications)
         {
-            return new ServiceResult
+            return new ServiceResult(notifications)
             {
                 Status = ServiceResultStatus.OK,
                 Success = true
@@ -21,7 +26,7 @@ namespace Produtos.Domain.Model
 
         public static ServiceResult BadRequestByModelState(ModelStateDictionary modelState)
         {
-            var result = new ServiceResult
+            var result = new ServiceResult(new List<DomainNotification>())
             {
                 Status = ServiceResultStatus.ERROR,
                 Success = false
@@ -39,11 +44,13 @@ namespace Produtos.Domain.Model
 
     public class ServiceResult<T> : ServiceResult
     {
+        public ServiceResult(List<DomainNotification> notifications) : base(notifications) { }
+
         public T? Model { get; private set; }
 
-        public static ServiceResult<T> Ok(T model)
+        public static ServiceResult<T> Ok(T model, List<DomainNotification> notifications)
         {
-            return new ServiceResult<T>
+            return new ServiceResult<T>(notifications)
             {
                 Model = model,
                 Status = ServiceResultStatus.OK,
@@ -51,53 +58,49 @@ namespace Produtos.Domain.Model
             };
         }
 
-        public static ServiceResult<T> Created(string routeLocation)
+        public static ServiceResult<T> Created(string routeLocation, List<DomainNotification> notifications)
         {
-            return new ServiceResult<T>
+            return new ServiceResult<T>(notifications)
             {
                 Model = default,
                 RouteLocation = routeLocation,
-                Status = ServiceResultStatus.OK,
+                Status = ServiceResultStatus.CREATED,
                 Success = true
             };
         }
 
-        public static ServiceResult<T> Error(params DomainNotification[] notifications)
+        public static ServiceResult<T> Error(List<DomainNotification> notifications)
         {
-            var result = new ServiceResult<T>
+            var result = new ServiceResult<T>(notifications)
             {
                 Model = default,
                 Status = ServiceResultStatus.ERROR,
                 Success = false
             };
-
-            result.Notifications.AddRange(notifications);
+            
             return result;
         }
 
-        public static ServiceResult<T> NotFound(params DomainNotification[] notifications)
+        public static ServiceResult<T> NotFound(List<DomainNotification> notifications)
         {
-            var result = new ServiceResult<T>
+            var result = new ServiceResult<T>(notifications)
             {
                 Model = default,
                 Status = ServiceResultStatus.NOT_FOUND,
                 Success = false
             };
-
-            result.Notifications.AddRange(notifications);
+            
             return result;
         }
 
-        public static ServiceResult<T> Personalized(bool success, T model, ServiceResultStatus status, params DomainNotification[] notifications)
+        public static ServiceResult<T> Personalized(bool success, T model, ServiceResultStatus status, List<DomainNotification> notifications)
         {
-            var result = new ServiceResult<T>
+            var result = new ServiceResult<T>(notifications)
             {
                 Model = model,
                 Status = status,
                 Success = success
             };
-
-            result.Notifications.AddRange(notifications);
 
             return result;
         }

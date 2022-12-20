@@ -54,7 +54,7 @@ namespace Produtos.WebApi.Controllers
         [ProducesResponseType(typeof(PaginatedProductResponseViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet(":paginated")]
+        [HttpGet("paginated")]
         public async Task<ActionResult<PaginatedProductResponseViewModel>> GetByFilter([FromQuery] GetProductsByFilter filter)
         {
             if (!ModelState.IsValid)

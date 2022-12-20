@@ -41,8 +41,8 @@ namespace Produtos.CrossCutting.IoC.Configurations
             services.AddScoped<INotificationHandler<DomainNotification>, DomainNotificationHandler>();
 
             services.AddScoped<IRequestHandler<RegisterProductCommand, int>, RegisterProductCommandHandler>();
-            services.AddScoped<IRequestHandler<EditProductCommand>, EditProductCommandHandler>();
-            services.AddScoped<IRequestHandler<DeleteProductCommand>, DeleteProductCommandHandler>();
+            services.AddScoped<IRequestHandler<EditProductCommand, Unit>, EditProductCommandHandler>();
+            services.AddScoped<IRequestHandler<DeleteProductCommand, Unit>, DeleteProductCommandHandler>();
         }
 
         private static void AddInfraConfiguration(this IServiceCollection services)

@@ -25,8 +25,9 @@ namespace Produtos.Infra.SqlServer.Maps
                 .IsRequired();
 
             builder.HasOne(x => x.Supplier)
-                .WithMany()
-                .HasForeignKey(x => x.SupplierId);
+                .WithMany(x => x.Products)
+                .HasForeignKey(x => x.SupplierId)
+                .IsRequired();
 
             builder.HasIndex(x => x.Description);
 

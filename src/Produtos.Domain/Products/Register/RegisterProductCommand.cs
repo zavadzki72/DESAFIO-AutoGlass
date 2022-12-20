@@ -1,4 +1,6 @@
-﻿namespace Produtos.Domain.Products.Register
+﻿using Produtos.Domain.Model.ViewModels.Products;
+
+namespace Produtos.Domain.Products.Register
 {
     public class RegisterProductCommand : ProductCommand<int>
     {
@@ -18,6 +20,17 @@
         {
             ValidationResult = new RegisterProductValidator().Validate(this);
             return ValidationResult.IsValid;
+        }
+
+        public static RegisterProductCommand CreateByRegisterViewModel(RegisterProductViewModel registerProductViewModel)
+        {
+            return new RegisterProductCommand(
+                registerProductViewModel.Description, 
+                registerProductViewModel.ManufacturingDate, 
+                registerProductViewModel.ValidDate, 
+                registerProductViewModel.Supplier.Description, 
+                registerProductViewModel.Supplier.Cnpj
+            );
         }
     }
 }
