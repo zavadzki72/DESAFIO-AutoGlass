@@ -2,13 +2,13 @@
 {
     public class Product : BaseEntity
     {
-        public Product(string description, bool isActive, DateTime manufacturingDate, DateTime validDate, int supplierId)
+        public Product(string description, DateTime manufacturingDate, DateTime validDate)
         {
             Description = description;
-            IsActive = isActive;
             ManufacturingDate = manufacturingDate;
             ValidDate = validDate;
-            SupplierId = supplierId;
+
+            IsActive = true;
         }
 
         public string Description { get; private set; }
@@ -17,6 +17,23 @@
         public DateTime ValidDate { get; private set; }
         public int SupplierId { get; private set; }
 
-        public virtual Supplier? Supplier { get; set; }
+        public virtual Supplier Supplier { get; set; }
+
+        public void SetSupplier(Supplier supplier)
+        {
+            Supplier = supplier;
+        }
+
+        public void Edit(string? description, DateTime? manufacturingDate, DateTime? validDate)
+        {
+            if(!string.IsNullOrWhiteSpace(description))
+                Description = description;
+            
+            if(manufacturingDate.HasValue)
+                ManufacturingDate = manufacturingDate.Value;
+            
+            if(validDate.HasValue)
+                ValidDate = validDate.Value;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Produtos.Domain.Model;
 using Produtos.Domain.Model.Interfaces.ApplicationServices;
 using Produtos.Domain.Model.ViewModels.Products;
 
@@ -56,6 +57,9 @@ namespace Produtos.WebApi.Controllers
         [HttpGet(":paginated")]
         public async Task<ActionResult<PaginatedProductResponseViewModel>> GetByFilter([FromQuery] GetProductsByFilter filter)
         {
+            if (!ModelState.IsValid)
+                return ProcessResponse(ServiceResult.BadRequestByModelState(ModelState));
+
             var result = await _productApplicationService.GetByFilter(filter);
             return ProcessResponse(result);
         }

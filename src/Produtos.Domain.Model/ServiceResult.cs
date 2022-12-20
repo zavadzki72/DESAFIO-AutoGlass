@@ -1,5 +1,5 @@
-﻿using Produtos.Domain.Model.Enumerators;
-using System.Reflection;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Produtos.Domain.Model.Enumerators;
 
 namespace Produtos.Domain.Model
 {
@@ -17,6 +17,23 @@ namespace Produtos.Domain.Model
                 Status = ServiceResultStatus.OK,
                 Success = true
             };
+        }
+
+        public static ServiceResult BadRequestByModelState(ModelStateDictionary modelState)
+        {
+            var result = new ServiceResult
+            {
+                Status = ServiceResultStatus.ERROR,
+                Success = false
+            };
+
+            foreach(var e in modelState)
+            {
+                var notification = new DomainNotification(DomainNotificationKey.FLUENT_VALIDATION, "INVALID_VIEWMODEL", $"{e.Key} : {e.Value}");
+                result.Notifications.Add(notification);
+            }
+
+            return result;
         }
     }
 

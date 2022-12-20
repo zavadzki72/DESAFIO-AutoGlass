@@ -13,7 +13,11 @@ namespace Produtos.Infra.SqlServer.Maps
                 .IsRequired();
 
             builder.Property(x => x.Cnpj)
+                .HasMaxLength(14)
                 .IsRequired();
+
+            builder.HasIndex(x => x.Cnpj)
+                .IsUnique();
 
             base.Configure(builder);
         }

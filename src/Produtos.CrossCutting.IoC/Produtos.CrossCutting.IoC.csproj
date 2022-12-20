@@ -17,6 +17,7 @@
     <ProjectReference Include="..\Produtos.CrossCutting.AutoMapper\Produtos.CrossCutting.AutoMapper.csproj" />
     <ProjectReference Include="..\Produtos.CrossCutting.bus\Produtos.CrossCutting.bus.csproj" />
     <ProjectReference Include="..\Produtos.Domain.Core\Produtos.Domain.Core.csproj" />
+    <ProjectReference Include="..\Produtos.Domain\Produtos.Domain.csproj" />
     <ProjectReference Include="..\Produtos.Infra.SqlServer\Produtos.Infra.SqlServer.csproj" />
   </ItemGroup>
 

@@ -12,7 +12,7 @@ namespace Produtos.Domain.Model.ViewModels.Products
         public string? Description { get; set; }
         public DateTime ManufacturingDate { get; set; }
         public DateTime ValidDate { get; set; }
-        public SupplierResponseViewModel? Supplier { get; private set; }
+        public SupplierResponseViewModel? Supplier { get; set; }
 
         public void SetSupplier(SupplierResponseViewModel supplierResponseViewModel)
         {

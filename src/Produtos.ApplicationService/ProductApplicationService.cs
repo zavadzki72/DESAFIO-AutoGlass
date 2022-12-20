@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
 using Produtos.Domain.Model;
+using Produtos.Domain.Model.ApiContracts;
+using Produtos.Domain.Model.Dtos.Filters;
 using Produtos.Domain.Model.Interfaces;
 using Produtos.Domain.Model.Interfaces.ApplicationServices;
 using Produtos.Domain.Model.Interfaces.Repositories;
@@ -10,11 +12,11 @@ namespace Produtos.ApplicationService
 {
     public class ProductApplicationService : BaseApplicationService, IProductApplicationService
     {
-        private readonly IProdutctRepository _produtctRepository;
+        private readonly IProductRepository _produtctRepository;
         private readonly IMediatorHandler _bus;
         private readonly IMapper _mapper;
 
-        public ProductApplicationService(IProdutctRepository produtctRepository, IMediatorHandler bus, IMapper mapper, INotificationHandler<DomainNotification> notifications) : base(notifications)
+        public ProductApplicationService(IProductRepository produtctRepository, IMediatorHandler bus, IMapper mapper, INotificationHandler<DomainNotification> notifications) : base(notifications)
         {
             _produtctRepository = produtctRepository;
             _bus = bus;
@@ -30,9 +32,15 @@ namespace Produtos.ApplicationService
 
             return serviceResult;
         }
-        public Task<ServiceResult<List<PaginatedProductResponseViewModel>>> GetByFilter(GetProductsByFilter filter)
+
+        public async Task<ServiceResult<PaginatedResult<List<PaginatedProductResponseViewModel>>>> GetByFilter(GetProductsByFilter getProductsByFilter)
         {
-            throw new NotImplementedException();
+            var filter = _mapper.Map<ProductFilter>(getProductsByFilter);
+
+            var result = await _produtctRepository.GetByFilter(filter);
+            var paginatedResult = new PaginatedResult<List<PaginatedProductResponseViewModel>>(result.Data, getProductsByFilter.Page, result.CountData, getProductsByFilter.Size);
+
+            return ServiceResult<PaginatedResult<List<PaginatedProductResponseViewModel>>>.Ok(paginatedResult);
         }
 
         public Task<ServiceResult<int>> Register(RegisterProductViewModel registerProductViewModel)
