@@ -5,8 +5,7 @@ namespace Produtos.Infra.SqlServer
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext() { }
-        public ApplicationDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions) { }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> dbContextOptions) : base(dbContextOptions) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
