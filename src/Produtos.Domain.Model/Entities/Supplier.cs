@@ -2,6 +2,8 @@
 {
     public class Supplier : BaseEntity
     {
+        public Supplier() { }
+
         public Supplier(string description, string cnpj)
         {
             Description = description;

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using FluentValidation.Results;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Produtos.Domain.Model.Enumerators;
 
 namespace Produtos.Domain.Model
@@ -24,7 +25,7 @@ namespace Produtos.Domain.Model
             };
         }
 
-        public static ServiceResult BadRequestByModelState(ModelStateDictionary modelState)
+        public static ServiceResult BadRequestByValidation(List<ValidationFailure> errors)
         {
             var result = new ServiceResult(new List<DomainNotification>())
             {
@@ -32,9 +33,9 @@ namespace Produtos.Domain.Model
                 Success = false
             };
 
-            foreach(var e in modelState)
+            foreach(var e in errors)
             {
-                var notification = new DomainNotification(DomainNotificationKey.FLUENT_VALIDATION, "INVALID_VIEWMODEL", $"{e.Key} : {e.Value}");
+                var notification = new DomainNotification(DomainNotificationKey.FLUENT_VALIDATION, "INVALID_VIEWMODEL", $"{e.ErrorCode} : {e.ErrorMessage}");
                 result.Notifications.Add(notification);
             }
 

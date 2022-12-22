@@ -8,7 +8,6 @@ using Produtos.Domain.Model;
 using Produtos.Domain.Model.Interfaces;
 using Produtos.Domain.Model.Interfaces.ApplicationServices;
 using Produtos.Domain.Model.Interfaces.Repositories;
-using Produtos.Domain.Model.ViewModels.Products;
 using Produtos.Domain.Model.ViewModels.Products.Validator;
 using Produtos.Domain.Products.Delete;
 using Produtos.Domain.Products.Edit;
@@ -31,7 +30,7 @@ namespace Produtos.CrossCutting.IoC.Configurations
         {
             services.AddScoped<IProductApplicationService, ProductApplicationService>();
 
-            services.AddTransient<IValidator<GetProductsByFilter>, GetProductsByFilterValidator>();
+            services.AddValidatorsFromAssemblyContaining<GetProductsByFilterValidator>();
         }
 
         private static void AddDomainConfiguration(this IServiceCollection services)

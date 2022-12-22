@@ -2,6 +2,7 @@
 {
     public class Product : BaseEntity
     {
+        public Product() { }
         public Product(string description, DateTime manufacturingDate, DateTime validDate)
         {
             Description = description;

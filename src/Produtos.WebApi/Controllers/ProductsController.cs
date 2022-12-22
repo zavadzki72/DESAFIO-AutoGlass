@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using Produtos.Domain.Model;
 using Produtos.Domain.Model.Interfaces.ApplicationServices;
 using Produtos.Domain.Model.ViewModels.Products;
@@ -10,10 +11,12 @@ namespace Produtos.WebApi.Controllers
     public class ProductsController : BaseController
     {
         private readonly IProductApplicationService _productApplicationService;
+        private readonly IValidator<GetProductsByFilter> _getProductsByFilterValidator;
 
-        public ProductsController(IProductApplicationService productApplicationService)
+        public ProductsController(IProductApplicationService productApplicationService, IValidator<GetProductsByFilter> getProductsByFilterValidator)
         {
             _productApplicationService = productApplicationService;
+            _getProductsByFilterValidator = getProductsByFilterValidator;
         }
 
         /// <summary>
@@ -57,8 +60,10 @@ namespace Produtos.WebApi.Controllers
         [HttpGet("paginated")]
         public async Task<ActionResult<PaginatedProductResponseViewModel>> GetByFilter([FromQuery] GetProductsByFilter filter)
         {
-            if (!ModelState.IsValid)
-                return ProcessResponse(ServiceResult.BadRequestByModelState(ModelState));
+            var validation = await _getProductsByFilterValidator.ValidateAsync(filter);
+
+            if (!validation.IsValid)
+                return ProcessResponse(ServiceResult.BadRequestByValidation(validation.Errors));
 
             var result = await _productApplicationService.GetByFilter(filter);
             return ProcessResponse(result);
@@ -75,7 +80,7 @@ namespace Produtos.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPost]
-        public async Task<ActionResult<ProductResponseViewModel>> Register([FromBody] RegisterProductViewModel registerProductViewModel)
+        public async Task<ActionResult<int>> Register([FromBody] RegisterProductViewModel registerProductViewModel)
         {
             var result = await _productApplicationService.Register(registerProductViewModel);
             return ProcessResponse(result);
