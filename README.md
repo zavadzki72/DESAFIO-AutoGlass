@@ -34,3 +34,6 @@ Produtos API - API desenvolvida para processo seletivo na [AutoGlass](https://ww
 
 ## Documentação Postman
 [Documentação e collection do postman](https://documenter.getpostman.com/view/7360830/2s8Z6x3ZBF)
+
+## Database Schema
+![image](https://user-images.githubusercontent.com/33812121/209736833-986d8ebe-74e1-49e7-92bb-1e9316ed915d.png)
