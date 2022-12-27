@@ -8,12 +8,19 @@ namespace Produtos.Tests.Domain.Mocks
     {
         public static List<Supplier> Get(int quantity, int id = 1)
         {
-            var supplier = new Faker<Supplier>()
-                .RuleFor(x => x.Id, id++)
-                .RuleFor(x => x.Description, x => x.Company.CompanyName())
-                .RuleFor(x => x.Cnpj, x => x.Company.Cnpj());
+            List<Supplier> suppliers = new();
 
-            return supplier.Generate(quantity);
+            for (int i = 0; i < quantity; i++)
+            {
+                var supplier = new Faker<Supplier>()
+                    .RuleFor(x => x.Id, id++)
+                    .RuleFor(x => x.Description, x => x.Company.CompanyName())
+                    .RuleFor(x => x.Cnpj, x => x.Company.Cnpj().Replace("/", "").Replace("-", "").Replace(".", ""));
+
+                suppliers.Add(supplier.Generate());
+            }
+
+            return suppliers;
         }
     }
 }

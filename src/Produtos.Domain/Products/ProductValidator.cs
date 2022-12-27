@@ -10,7 +10,7 @@ namespace Produtos.Domain.Products
         protected void ValidateId()
         {
             RuleFor(x => x.Id)
-                .NotEmpty()
+                .GreaterThan(0)
                 .WithMessage(string.Format(REQUIRED_FIELD, nameof(Product.Id)));
         }
 

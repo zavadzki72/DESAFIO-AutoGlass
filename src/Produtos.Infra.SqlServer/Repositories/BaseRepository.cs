@@ -9,10 +9,12 @@ namespace Produtos.Infra.SqlServer.Repositories
     {
 
         public readonly ApplicationDbContext _applicationDbContext;
+        public readonly ApplicationReadOnlyDbContext _applicationReadOnlyDbContext;
 
-        public BaseRepository(ApplicationDbContext applicationDbContext)
+        public BaseRepository(ApplicationDbContext applicationDbContext, ApplicationReadOnlyDbContext applicationReadOnlyDbContext)
         {
             _applicationDbContext = applicationDbContext;
+            _applicationReadOnlyDbContext = applicationReadOnlyDbContext;
         }
 
         public virtual async Task<TEntity?> GetById(int id)
@@ -20,9 +22,19 @@ namespace Produtos.Infra.SqlServer.Repositories
             return await _applicationDbContext.Set<TEntity>().FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public virtual async Task<TEntity?> GetByIdReadOnly(int id)
+        {
+            return await _applicationReadOnlyDbContext.Set<TEntity>().FirstOrDefaultAsync(x => x.Id == id);
+        }
+
         public virtual async Task<List<TEntity>?> GetAll()
         {
             return await _applicationDbContext.Set<TEntity>().ToListAsync();
+        }
+
+        public virtual async Task<List<TEntity>?> GetAllReadOnly()
+        {
+            return await _applicationReadOnlyDbContext.Set<TEntity>().ToListAsync();
         }
 
         public virtual async Task<TEntity> Add(TEntity entity)

@@ -9,15 +9,23 @@ namespace Produtos.Tests.Domain.Mocks
         {
             supplier ??= SupplierMock.Get(1).First();
 
-            var product = new Faker<Product>()
+            List<Product> products = new();
+
+            for(int i=0; i<quantity; i++)
+            {
+                var product = new Faker<Product>()
                 .RuleFor(x => x.Id, id++)
+                .RuleFor(x => x.IsActive, true)
                 .RuleFor(x => x.Description, x => x.Commerce.Product())
                 .RuleFor(x => x.ManufacturingDate, DateTime.Today)
                 .RuleFor(x => x.ValidDate, DateTime.Today.AddMonths(3))
                 .RuleFor(x => x.SupplierId, supplier.Id)
                 .RuleFor(x => x.Supplier, supplier);
 
-            return product.Generate(quantity);
+                products.Add(product.Generate());
+            }
+
+            return products;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Produtos.Infra.SqlServer.Repositories
 {
     public class ProductRepository : BaseRepository<Product>, IProductRepository
     {
-        public ProductRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext) { }
+        public ProductRepository(ApplicationDbContext applicationDbContext, ApplicationReadOnlyDbContext applicationReadOnlyDbContext) : base(applicationDbContext, applicationReadOnlyDbContext) { }
 
         public override async Task<Product?> GetById(int id)
         {
@@ -23,8 +23,8 @@ namespace Produtos.Infra.SqlServer.Repositories
         public async Task<PagedRepositoryResponse<PaginatedProductResponseViewModel>> GetByFilter(ProductFilter filter)
         {
             var query = (
-                from p in _applicationDbContext.Set<Product>()
-                    join s in _applicationDbContext.Set<Supplier>() on p.SupplierId equals s.Id
+                from p in _applicationReadOnlyDbContext.Set<Product>()
+                    join s in _applicationReadOnlyDbContext.Set<Supplier>() on p.SupplierId equals s.Id
                 where p.IsActive
                 select new PaginatedProductResponseViewModel
                 {

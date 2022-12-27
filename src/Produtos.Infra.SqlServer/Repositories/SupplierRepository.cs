@@ -6,7 +6,7 @@ namespace Produtos.Infra.SqlServer.Repositories
 {
     public class SupplierRepository : BaseRepository<Supplier>, ISupplierRepository
     {
-        public SupplierRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext) { }
+        public SupplierRepository(ApplicationDbContext applicationDbContext, ApplicationReadOnlyDbContext applicationReadOnlyDbContext) : base(applicationDbContext, applicationReadOnlyDbContext) { }
 
         public async Task<Supplier?> GetByCnpj(string cnpj)
         {
