@@ -31,3 +31,9 @@ Produtos API - API desenvolvida para processo seletivo na [AutoGlass](https://ww
 ## Executando a aplicação
 - Para executar a aplicação é necessário atualizar a base rodando o comando de migration e depois usar o IIS Express ou o docker para inicar
 - A aplicação ira abrir em uma porta, para ir até a documentação da API basta digitar `/swagger` depois da rota, por exemplo: `localhost:XXXXX/swagger`
+
+## Documentação Postman
+[Documentação e collection do postman](https://documenter.getpostman.com/view/7360830/2s8Z6x3ZBF)
+
+## Database Schema
+![image](https://user-images.githubusercontent.com/33812121/209736833-986d8ebe-74e1-49e7-92bb-1e9316ed915d.png)
