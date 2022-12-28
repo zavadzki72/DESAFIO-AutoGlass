@@ -5,6 +5,6 @@ namespace Produtos.Domain.Model.ViewModels.Products
 {
     public class RegisterProductViewModel : ProductViewModel
     {
-        public RegisterSupplierViewModel Supplier { get; set; }
+        public RegisterSupplierViewModel? Supplier { get; set; }
     }
 }

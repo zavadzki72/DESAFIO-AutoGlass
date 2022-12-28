@@ -51,6 +51,9 @@ namespace Produtos.ApplicationService
             var command = RegisterProductCommand.CreateByRegisterViewModel(registerProductViewModel);
             var result = await _bus.SendCommand<RegisterProductCommand, int>(command);
 
+            if(result == 0)
+                return ServiceResult<int>.Error(_notifications.GetNotifications());
+
             return ServiceResult<int>.Created($"products/{result}", _notifications.GetNotifications());
         }
 

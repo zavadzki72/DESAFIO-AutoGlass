@@ -26,8 +26,8 @@ namespace Produtos.Domain.Products.Register
         {
             return new RegisterProductCommand(
                 registerProductViewModel.Description, 
-                registerProductViewModel.ManufacturingDate, 
-                registerProductViewModel.ValidDate, 
+                registerProductViewModel.ManufacturingDate.Value, 
+                registerProductViewModel.ValidDate.Value, 
                 registerProductViewModel.Supplier.Description, 
                 registerProductViewModel.Supplier.Cnpj
             );

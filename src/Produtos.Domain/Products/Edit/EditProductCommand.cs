@@ -30,8 +30,8 @@ namespace Produtos.Domain.Products.Edit
                 registerProductViewModel.Description,
                 registerProductViewModel.ManufacturingDate,
                 registerProductViewModel.ValidDate,
-                registerProductViewModel.Supplier.Description,
-                registerProductViewModel.Supplier.Cnpj
+                registerProductViewModel.Supplier?.Description,
+                registerProductViewModel.Supplier?.Cnpj
             );
         }
     }
