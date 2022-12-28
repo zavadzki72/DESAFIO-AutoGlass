@@ -40,7 +40,7 @@ namespace Produtos.Domain.Products
 
             RuleFor(x => x.ValidDate)
                 .GreaterThan(x => x.ManufacturingDate)
-                .WithMessage("The Manufacturing date cannot be samaller then Valid date");
+                .WithMessage("The Valid date cannot be samaller then Manufacturing date");
         }
     }
 
@@ -81,7 +81,7 @@ namespace Produtos.Domain.Products
 
             RuleFor(x => x.ValidDate)
                 .GreaterThan(x => x.ManufacturingDate)
-                .WithMessage("The Manufacturing date cannot be samaller then Valid date");
+                .WithMessage("The Valid date cannot be samaller then Manufacturing date");
         }
     }
 }

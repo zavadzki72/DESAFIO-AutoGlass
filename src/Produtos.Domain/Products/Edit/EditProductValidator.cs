@@ -20,7 +20,7 @@ namespace Produtos.Domain.Products.Edit
             RuleFor(x => x.ValidDate)
                 .GreaterThan(x => x.ManufacturingDate)
                 .When(x => x.ValidDate.HasValue && x.ManufacturingDate.HasValue)
-                .WithMessage("The Manufacturing date cannot be samaller then Valid date");
+                .WithMessage("The Valid date cannot be samaller then Manufacturing date");
         }
     }
 }
